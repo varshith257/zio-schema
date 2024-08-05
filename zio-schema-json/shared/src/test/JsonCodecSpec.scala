@@ -32,7 +32,6 @@ object JsonCodecSpec extends ZIOSpecDefault {
     ) @@ timeout(180.seconds)
 
   // TODO: Add tests for the pipeline contract.
-
   private val encoderSuite = suite("encoding")(
     suite("primitive")(
       test("unit") {
