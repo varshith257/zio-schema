@@ -64,7 +64,9 @@ object DeriveGen {
       case map @ Schema.Map(_, _, _)                                                                                                => genMap(map)
       case set @ Schema.Set(_, _)                                                                                                   => genSet(set)
       case transform @ Schema.Transform(_, _, _, _, _)                                                                              => genTransform(transform)
-      case Schema.Primitive(standardType, _)                                                                                        => genPrimitive(standardType)
+      case Schema.Primitive(standardType, _)    
+      case Schema.Generic(_, schema) =>
+        DeriveGen.gen(schema).map(GenericType(_))                                                                                    => genPrimitive(standardType)
       case optional @ Schema.Optional(_, _)                                                                                         => genOptional(optional)
       case fail @ Schema.Fail(_, _)                                                                                                 => genFail(fail)
       case tuple @ Schema.Tuple2(_, _, _)                                                                                           => genTuple(tuple)
