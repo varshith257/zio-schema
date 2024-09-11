@@ -64,16 +64,16 @@ object DeriveGen {
       case map @ Schema.Map(_, _, _)                                                                                                => genMap(map)
       case set @ Schema.Set(_, _)                                                                                                   => genSet(set)
       case transform @ Schema.Transform(_, _, _, _, _)                                                                              => genTransform(transform)
-      case Schema.Primitive(standardType, _)    
+      case Schema.Primitive(standardType, _)                                                                                        => genPrimitive(standardType)
       case Schema.Generic(_, schema) =>
-        DeriveGen.gen(schema).map(GenericType(_))                                                                                    => genPrimitive(standardType)
-      case optional @ Schema.Optional(_, _)                                                                                         => genOptional(optional)
-      case fail @ Schema.Fail(_, _)                                                                                                 => genFail(fail)
-      case tuple @ Schema.Tuple2(_, _, _)                                                                                           => genTuple(tuple)
-      case either @ Schema.Either(_, _, _)                                                                                          => genEither(either)
-      case lazzy @ Schema.Lazy(_)                                                                                                   => genLazy(lazzy)
-      case Schema.Dynamic(_)                                                                                                        => gen(DynamicValue.schema)
-      case _                                                                                                                        => throw new Exception(s"Missing handler for generating value of schema ${schema.toString()}")
+        DeriveGen.gen(schema).map(GenericType(_))
+      case optional @ Schema.Optional(_, _) => genOptional(optional)
+      case fail @ Schema.Fail(_, _)         => genFail(fail)
+      case tuple @ Schema.Tuple2(_, _, _)   => genTuple(tuple)
+      case either @ Schema.Either(_, _, _)  => genEither(either)
+      case lazzy @ Schema.Lazy(_)           => genLazy(lazzy)
+      case Schema.Dynamic(_)                => gen(DynamicValue.schema)
+      case _                                => throw new Exception(s"Missing handler for generating value of schema ${schema.toString()}")
     } // scalafmt: { maxColumn = 120 }
 
   private def genEnum[Z](cases: Schema.Case[Z, _]*) =
